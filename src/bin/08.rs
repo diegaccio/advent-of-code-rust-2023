@@ -44,9 +44,7 @@ fn parse_input(input: &str) -> (DirectionVec, Map) {
         })
         .collect();
 
-    let mut coordinates_map: Map = HashMap::new();
-
-    for line in lines_iter.skip(1) {
+    let coordinates_map: Map = lines_iter.skip(1).fold(HashMap::new(), |mut acc, line| {
         let replaced = line
             .to_string()
             .replace("=", "")
@@ -60,58 +58,16 @@ fn parse_input(input: &str) -> (DirectionVec, Map) {
             left: splitted_iter.next().unwrap().to_string(),
             right: splitted_iter.next().unwrap().to_string(),
         };
-        //let vec_value: Vec<String> = splitted_iter.map(|s| s.to_string()).collect();
 
-        coordinates_map.insert(current_key.clone(), coord);
-    }
+        acc.insert(current_key.clone(), coord);
+        acc
+    });
 
     (instructions, coordinates_map)
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
-    /*
-        let mut lines_iter = input.lines();
-        let fist_line = lines_iter.next().unwrap();
-
-        let instructions: Vec<Direction> = fist_line
-            .chars()
-            .map(|c| {
-                if c == 'L' {
-                    Direction::Left
-                } else {
-                    Direction::Right
-                }
-            })
-            .collect();
-    */
-    //let mut first_key = "".to_string();
-    /*     let mut current_key = "".to_string();
-    let mut coordinates_map: HashMap<String, Coordinates> = HashMap::new();
-
-    for line in lines_iter.skip(1) {
-        let replaced = line
-            .to_string()
-            .replace("=", "")
-            .replace("(", "")
-            .replace(")", "")
-            .replace(",", "");
-        let mut splitted_iter = replaced.split_whitespace();
-        current_key = splitted_iter.next().unwrap().to_string();
-        //if first_key.is_empty() {
-        //    first_key = current_key.clone();
-        //}
-        let coord = Coordinates {
-            left: splitted_iter.next().unwrap().to_string(),
-            right: splitted_iter.next().unwrap().to_string(),
-        };
-        //let vec_value: Vec<String> = splitted_iter.map(|s| s.to_string()).collect();
-
-        coordinates_map.insert(current_key.clone(), coord);
-    } */
-
     let (instructions, coordinates_map) = parse_input(input);
-
-    //println!("{:?}", coordinates_map);
 
     //they are not the firs and la keys of the example
     let mut current_key = "AAA";
